@@ -1,2 +1,2 @@
-# -nextpvr-ccextractor
-Custom build of NextPVR docker container
+# nextpvr-ccextractor
+Custom build of [NextPVR](https://nextpvr.com/) docker container
