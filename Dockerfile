@@ -127,7 +127,7 @@ RUN buildDeps="autoconf \
         DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends ${buildDeps} && \
         pip3 install --no-cache-dir meson ffsubsync
 
-ENV             FFMPEG_VERSION=5.0 \
+ENV             FFMPEG_VERSION=5.1.1 \
                 AOM_VERSION=v3.2.0 \
                 FDKAAC_VERSION=2.0.2 \
                 FONTCONFIG_VERSION=2.13.96 \
@@ -141,13 +141,13 @@ ENV             FFMPEG_VERSION=5.0 \
                 LIBXCB_VERSION=1.14 \
                 XCBPROTO_VERSION=1.14 \
                 OGG_VERSION=1.3.5 \
-                OPENCOREAMR_VERSION=0.1.5 \
+                OPENCOREAMR_VERSION=0.1.6 \
                 OPUS_VERSION=1.3.1 \
                 OPENJPEG_VERSION=2.4.0 \
                 THEORA_VERSION=1.2.0 \
                 VORBIS_VERSION=1.3.7 \
-                VPX_VERSION=1.11.0 \
-                WEBP_VERSION=1.2.2 \
+                VPX_VERSION=1.12.0 \
+                WEBP_VERSION=1.2.4 \
                 X264_VERSION=20191217-2245-stable \
                 X265_VERSION=3.5 \
                 LIBDAV1D_VERSION=0.9.2 \
@@ -163,28 +163,19 @@ ENV             FFMPEG_VERSION=5.0 \
                 LIBSTVAV1_VERSION=v0.9.0 \
                 SRC=/usr/local
 
-## Workaround while NASM 1.15 isn't available for dav1d
-RUN set -x && \
-        DIR=/tmp/nasm && \
-        mkdir -p ${DIR} && \
-        cd ${DIR} && \
-        curl -sL https://www.nasm.us/pub/nasm/releasebuilds/2.15.05/nasm-2.15.05.tar.gz | \
-        tar -zx --strip-components=1 && \
-        ./configure  && \
-        make && \
-        make install
 
-# Update cmake for HandBrake
-RUN set -x && \
-        DIR=/tmp/cmake && \
-        mkdir -p ${DIR} && \
-        cd ${DIR} && \
-        curl -sL https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2.tar.gz | \
-        tar -zx --strip-components=1 && \
-        ls -al && \
-        cmake .  && \
-        make && \
-        make install
+
+# # Update cmake for HandBrake
+# RUN set -x && \
+#         DIR=/tmp/cmake && \
+#         mkdir -p ${DIR} && \
+#         cd ${DIR} && \
+#         curl -sL https://github.com/Kitware/CMake/releases/download/v3.22.2/cmake-3.22.2.tar.gz | \
+#         tar -zx --strip-components=1 && \
+#         ls -al && \
+#         cmake .  && \
+#         make && \
+#         make install
 
 
 
