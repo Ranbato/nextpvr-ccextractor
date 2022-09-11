@@ -28,14 +28,14 @@ RUN     ln -s /usr/bin/python3 /usr/bin/python
 
 ENV ASPNETCORE_URLS=http://+:80 DOTNET_RUNNING_IN_CONTAINER=true
 
-RUN dotnet_version=3.1.23 && \
+RUN dotnet_version=6.0.8 && \
   curl -SL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Runtime/$dotnet_version/dotnet-runtime-$dotnet_version-linux-x64.tar.gz     && \
   mkdir -p /usr/share/dotnet && \
   tar -ozxf dotnet.tar.gz -C /usr/share/dotnet && \
   rm dotnet.tar.gz && \
   ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
 
-RUN aspnetcore_version=3.1.23     && \
+RUN aspnetcore_version=6.0.8     && \
 curl -SL --output aspnetcore.tar.gz https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/$aspnetcore_version/aspnetcore-runtime-$aspnetcore_version-linux-x64.tar.gz     && \
 tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App     && \
 rm aspnetcore.tar.gz
@@ -777,6 +777,7 @@ RUN curl -sLO http://nextpvr.com/stable/linux/NPVR.zip && \
   ls -al && \
   find . -name DeviceHostLinux -exec chmod 755 {} \; && \
   rm NPVR.zip
+
 
 RUN  hash -r && \
         apt-get autoremove -y && \
