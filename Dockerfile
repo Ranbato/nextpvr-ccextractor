@@ -127,7 +127,7 @@ RUN buildDeps="autoconf \
         DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends ${buildDeps} && \
         pip3 install --no-cache-dir meson ffsubsync
 
-ENV             FFMPEG_VERSION=5.1.1 \
+ENV             FFMPEG_VERSION=5.1.2 \
                 AOM_VERSION=v3.2.0 \
                 FDKAAC_VERSION=2.0.2 \
                 FONTCONFIG_VERSION=2.13.96 \
