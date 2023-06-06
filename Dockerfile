@@ -127,7 +127,7 @@ RUN buildDeps="autoconf \
         DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends ${buildDeps} && \
         pip3 install --no-cache-dir meson ffsubsync
 
-ENV             FFMPEG_VERSION=5.1.2 \
+ENV             FFMPEG_VERSION=5.1.3 \
                 AOM_VERSION=v3.2.0 \
                 FDKAAC_VERSION=2.0.2 \
                 FONTCONFIG_VERSION=2.13.96 \
@@ -159,7 +159,7 @@ ENV             FFMPEG_VERSION=5.1.2 \
                 LIBBLURAY_VERSION=1.3.0 \
                 LIBZMQ_VERSION=4.3.2 \
                 LIBVMAF_VERSION=1.5.3 \
-                HANDBRAKE_VERSION=1.5.1 \
+                HANDBRAKE_VERSION=1.6.1 \
                 LIBSTVAV1_VERSION=v0.9.0 \
                 SRC=/usr/local
 
@@ -768,9 +768,9 @@ COPY --from=comskip_build /tmp/Comskip/comskiplibs /usr/local/bin/comskiplibs
 
 WORKDIR /app
 
-RUN curl -sLO https://mirrors.xmission.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb && \
-  dpkg -i libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb && \
-  rm libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb
+RUN curl -sLO https://mirrors.xmission.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb && \
+  dpkg -i libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb && \
+  rm libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
 
 RUN curl -sLO http://nextpvr.com/stable/linux/NPVR.zip && \
   unzip NPVR.zip && \
