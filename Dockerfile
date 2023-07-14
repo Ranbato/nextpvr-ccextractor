@@ -19,7 +19,7 @@ RUN     apt-get -yqq update && \
         apt-get install -yq --no-install-recommends ca-certificates expat curl libgomp1 mediainfo libutf8proc2 tesseract-ocr curl libgomp1 \
         mediainfo libfreetype6 libutf8proc2 tesseract-ocr libva-drm2 libva2 libjansson4 python3 libargtable2-0 \
         libjpeg-turbo8 libturbojpeg curl libunwind8 gettext apt-transport-https libgdiplus libc6-dev mediainfo libdvbv5-dev \
-        ffmpeg hdhomerun-config dtv-scan-tables unzip i965-va-driver-shaders vainfo
+        ffmpeg hdhomerun-config dtv-scan-tables unzip i965-va-driver-shaders vainfo aspnetcore-runtime-6.0
 
 #RUN curl https://nextpvr.com/nextpvr-helper.deb -O && \
 #    apt -yq install ./nextpvr-helper.deb --install-recommends
@@ -27,18 +27,6 @@ RUN     apt-get -yqq update && \
 RUN     ln -s /usr/bin/python3 /usr/bin/python
 
 ENV ASPNETCORE_URLS=http://+:80 DOTNET_RUNNING_IN_CONTAINER=true
-
-RUN dotnet_version=6.0.8 && \
-  curl -SL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Runtime/$dotnet_version/dotnet-runtime-$dotnet_version-linux-x64.tar.gz     && \
-  mkdir -p /usr/share/dotnet && \
-  tar -ozxf dotnet.tar.gz -C /usr/share/dotnet && \
-  rm dotnet.tar.gz && \
-  ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
-
-RUN aspnetcore_version=6.0.8     && \
-curl -SL --output aspnetcore.tar.gz https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/$aspnetcore_version/aspnetcore-runtime-$aspnetcore_version-linux-x64.tar.gz     && \
-tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App     && \
-rm aspnetcore.tar.gz
 
 FROM base as build
 
