@@ -19,7 +19,8 @@ RUN     apt-get -yqq update && \
         apt-get install -yq --no-install-recommends ca-certificates expat curl libgomp1 mediainfo libutf8proc2 tesseract-ocr curl libgomp1 \
         mediainfo libfreetype6 libutf8proc2 tesseract-ocr libva-drm2 libva2 libjansson4 python3 libargtable2-0 \
         libjpeg-turbo8 libturbojpeg curl libunwind8 gettext apt-transport-https libgdiplus libc6-dev mediainfo libdvbv5-dev \
-        ffmpeg hdhomerun-config dtv-scan-tables unzip i965-va-driver-shaders vainfo
+        ffmpeg hdhomerun-config dtv-scan-tables unzip i965-va-driver-shaders vainfo aspnetcore-runtime-6.0 \
+        libgpac11
 
 #RUN curl https://nextpvr.com/nextpvr-helper.deb -O && \
 #    apt -yq install ./nextpvr-helper.deb --install-recommends
@@ -27,18 +28,6 @@ RUN     apt-get -yqq update && \
 RUN     ln -s /usr/bin/python3 /usr/bin/python
 
 ENV ASPNETCORE_URLS=http://+:80 DOTNET_RUNNING_IN_CONTAINER=true
-
-RUN dotnet_version=6.0.8 && \
-  curl -SL --output dotnet.tar.gz https://dotnetcli.azureedge.net/dotnet/Runtime/$dotnet_version/dotnet-runtime-$dotnet_version-linux-x64.tar.gz     && \
-  mkdir -p /usr/share/dotnet && \
-  tar -ozxf dotnet.tar.gz -C /usr/share/dotnet && \
-  rm dotnet.tar.gz && \
-  ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
-
-RUN aspnetcore_version=6.0.8     && \
-curl -SL --output aspnetcore.tar.gz https://dotnetcli.azureedge.net/dotnet/aspnetcore/Runtime/$aspnetcore_version/aspnetcore-runtime-$aspnetcore_version-linux-x64.tar.gz     && \
-tar -ozxf aspnetcore.tar.gz -C /usr/share/dotnet ./shared/Microsoft.AspNetCore.App     && \
-rm aspnetcore.tar.gz
 
 FROM base as build
 
@@ -122,16 +111,17 @@ RUN buildDeps="autoconf \
                 gobject-introspection \
                 xcb-proto \
                 python3-xcbgen \
-                " && \
+                libgpac-dev \
+        " && \
         apt-get -yqq update && \
         DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends ${buildDeps} && \
         pip3 install --no-cache-dir meson ffsubsync
 
-ENV             FFMPEG_VERSION=5.1.3 \
-                AOM_VERSION=v3.2.0 \
+ENV             FFMPEG_VERSION=5.1.4 \
+                AOM_VERSION=v3.8.0 \
                 FDKAAC_VERSION=2.0.2 \
                 FONTCONFIG_VERSION=2.13.96 \
-                FREETYPE_VERSION=2.11.1 \
+                FREETYPE_VERSION=2.13.2 \
                 FRIBIDI_VERSION=1.0.11 \
                 KVAZAAR_VERSION=2.1.0 \
                 LAME_VERSION=3.100 \
@@ -150,7 +140,7 @@ ENV             FFMPEG_VERSION=5.1.3 \
                 WEBP_VERSION=1.2.4 \
                 X264_VERSION=20191217-2245-stable \
                 X265_VERSION=3.5 \
-                LIBDAV1D_VERSION=0.9.2 \
+                LIBDAV1D_VERSION=1.3.0 \
                 XAU_VERSION=1.0.9 \
                 XORG_MACROS_VERSION=1.19.2 \
                 XPROTO_VERSION=7.0.31 \
@@ -159,8 +149,8 @@ ENV             FFMPEG_VERSION=5.1.3 \
                 LIBBLURAY_VERSION=1.3.0 \
                 LIBZMQ_VERSION=4.3.2 \
                 LIBVMAF_VERSION=1.5.3 \
-                HANDBRAKE_VERSION=1.6.1 \
-                LIBSTVAV1_VERSION=v0.9.0 \
+                HANDBRAKE_VERSION=1.7.1 \
+                LIBSTVAV1_VERSION=v1.7.0 \
                 SRC=/usr/local
 
 
@@ -615,7 +605,7 @@ RUN set -x && \
 
 
 FROM rustlib_build as extras_build
-
+  
 
 RUN  set -x &&   cd /tmp && \
         git clone https://github.com/CCExtractor/ccextractor && \
@@ -768,9 +758,9 @@ COPY --from=comskip_build /tmp/Comskip/comskiplibs /usr/local/bin/comskiplibs
 
 WORKDIR /app
 
-RUN curl -sLO https://mirrors.xmission.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb && \
-  dpkg -i libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb && \
-  rm libssl1.1_1.1.1f-1ubuntu2.19_amd64.deb
+RUN curl -sLO https://mirrors.xmission.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.20_amd64.deb && \
+  dpkg -i libssl1.1_1.1.1f-1ubuntu2.20_amd64.deb && \
+  rm libssl1.1_1.1.1f-1ubuntu2.20_amd64.deb
 
 RUN curl -sLO http://nextpvr.com/stable/linux/NPVR.zip && \
   unzip NPVR.zip && \
