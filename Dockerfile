@@ -16,7 +16,7 @@ RUN     apt-get -yqq update && \
         mediainfo libfreetype6 libutf8proc2 tesseract-ocr libva-drm2 libva2 libjansson4 python3 libargtable2-0 \
         libturbojpeg0 curl libunwind8 gettext apt-transport-https libgdiplus libc6-dev mediainfo libdvbv5-dev \
         ffmpeg hdhomerun-config dtv-scan-tables unzip i965-va-driver-shaders vainfo \
-        libigdgmm12
+        libigdgmm12 libglu1-mesa libmad0 liba52-0.7.4 libfaad2
 
 #RUN curl https://nextpvr.com/nextpvr-helper.deb -O && \
 #    apt -yq install ./nextpvr-helper.deb --install-recommends
@@ -260,17 +260,19 @@ ENV         LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64:/usr/lib:/usr/lib64:
 
 ## Copy everything from build images to final image
 
+# Libraries too
+COPY --from=extras_build /usr/local /usr/local/
+
+#Add to lib path
+ENV         LD_LIBRARY_PATH=/usr/local/lib:/usr/local/lib64:/usr/lib:/usr/lib64:/lib:/lib64
+
 #copy ccextractor, comskip, comcut, ffsubsync
-# COPY --from=extras_build /tmp/ccextractor/linux/ccextractor \
-#         /tmp/comchap/comchap  \
-#         /tmp/comchap/comcut  \
-#         /usr/local/bin/yt-dlp \
-#         /usr/local/bin/
-COPY --from=extras_build \
+COPY --from=extras_build /tmp/ccextractor/linux/ccextractor \
         /tmp/comchap/comchap  \
         /tmp/comchap/comcut  \
         /usr/local/bin/yt-dlp \
         /usr/local/bin/
+
 
 # copy handbrakecli
 COPY --from=handbrake_build  /tmp/HandBrake/build/HandBrakeCLI \
