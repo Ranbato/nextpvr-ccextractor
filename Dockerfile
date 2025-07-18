@@ -160,7 +160,7 @@ ENV             FFMPEG_VERSION=7.0.2 \
                 LIBBLURAY_VERSION=1.3.0 \
                 LIBZMQ_VERSION=4.3.2 \
                 LIBVMAF_VERSION=1.5.3 \
-                HANDBRAKE_VERSION=1.8.2 \
+                HANDBRAKE_VERSION=1.9.2 \
                 LIBSTVAV1_VERSION=v1.7.0 \
                 SRC=/usr/local
 
@@ -285,9 +285,9 @@ COPY --from=comskip_build /tmp/Comskip/comskiplibs /usr/local/bin/comskiplibs
 
 WORKDIR /app
 
-RUN curl -sLO https://mirrors.xmission.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.23_amd64.deb && \
-  dpkg -i libssl1.1_1.1.1f-1ubuntu2.23_amd64.deb && \
-  rm libssl1.1_1.1.1f-1ubuntu2.23_amd64.deb
+RUN curl -sLO https://mirrors.xmission.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.24_amd64.deb && \
+  dpkg -i libssl1.1_1.1.1f-1ubuntu2.24_amd64.deb && \
+  rm libssl1.1_1.1.1f-1ubuntu2.24_amd64.deb
 
 
 RUN  hash -r && \
