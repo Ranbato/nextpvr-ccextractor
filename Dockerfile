@@ -128,40 +128,8 @@ RUN buildDeps="autoconf \
 
 RUN     pip3 install --no-cache-dir --break-system-packages meson ffsubsync
 
-ENV             FFMPEG_VERSION=7.0.2 \
-                AOM_VERSION=v3.10.0 \
-                FDKAAC_VERSION=2.0.3 \
-                FONTCONFIG_VERSION=2.13.96 \
-                FREETYPE_VERSION=2.13.2 \
-                FRIBIDI_VERSION=1.0.11 \
-                KVAZAAR_VERSION=2.3.1 \
-                LAME_VERSION=3.100 \
-                LIBASS_VERSION=0.15.2 \
-                LIBPTHREAD_STUBS_VERSION=0.4 \
-                LIBVIDSTAB_VERSION=1.1.0 \
-                LIBXCB_VERSION=1.17.0 \
-                XCBPROTO_VERSION=1.17.0 \
-                OGG_VERSION=1.3.5 \
-                OPENCOREAMR_VERSION=0.1.6 \
-                OPUS_VERSION=1.3.1 \
-                OPENJPEG_VERSION=2.4.0 \
-                THEORA_VERSION=1.2.0 \
-                VORBIS_VERSION=1.3.7 \
-                VPX_VERSION=1.12.0 \
-                WEBP_VERSION=1.2.4 \
-                X264_VERSION=20191217-2245-stable \
-                X265_VERSION=4.0 \
-                LIBDAV1D_VERSION=1.5.0 \
-                XAU_VERSION=1.0.9 \
-                XORG_MACROS_VERSION=1.19.2 \
-                XPROTO_VERSION=7.0.31 \
-                XVID_VERSION=1.3.5 \
-                LIBXML2_VERSION=2.9.11 \
-                LIBBLURAY_VERSION=1.3.0 \
-                LIBZMQ_VERSION=4.3.2 \
-                LIBVMAF_VERSION=1.5.3 \
-                HANDBRAKE_VERSION=1.9.2 \
-                LIBSTVAV1_VERSION=v1.7.0 \
+ENV             FFMPEG_VERSION=8.1.x \
+                HANDBRAKE_VERSION=1.10.2 \
                 SRC=/usr/local
 
 
@@ -177,7 +145,7 @@ ENV     MAKEFLAGS="-j `nproc`" \
         CXXFLAGS="-mtune=native "
 
 
-RUN gcc -v -E -x c /dev/null -o /dev/null -march=native 2>&1 | grep /cc1 | grep mtune
+# RUN gcc -v -E -x c /dev/null -o /dev/null -march=native 2>&1 | grep /cc1 | grep mtune
 
 
 FROM updated_build AS rustlib_build
@@ -281,6 +249,10 @@ COPY --from=handbrake_build  /tmp/HandBrake/build/HandBrakeCLI \
 RUN mkdir -p /usr/local/bin/comskiplibs
 COPY --from=comskip_build /tmp/Comskip/comskip /usr/local/bin/patchelf /usr/local/bin/
 COPY --from=comskip_build /tmp/Comskip/comskiplibs /usr/local/bin/comskiplibs
+
+# For some reason, 8 seems less stable than ffmpeg 5 for streaming
+COPY ./temp/ff* /usr/local/bin/
+RUN chmod +x /usr/local/bin/ff* 
 
 
 WORKDIR /app
