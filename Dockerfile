@@ -251,8 +251,10 @@ COPY --from=comskip_build /tmp/Comskip/comskip /usr/local/bin/patchelf /usr/loca
 COPY --from=comskip_build /tmp/Comskip/comskiplibs /usr/local/bin/comskiplibs
 
 # For some reason, 8 seems less stable than ffmpeg 5 for streaming
-COPY ./temp/ff* /usr/local/bin/
-RUN chmod +x /usr/local/bin/ff* 
+# https://github.com/BtbN/FFmpeg-Builds/
+RUN mkdir /app/ffmpeg8
+COPY ./temp/ff* /app/ffmpeg8
+RUN chmod +x /app/ffmpeg8/ff* 
 
 
 WORKDIR /app
