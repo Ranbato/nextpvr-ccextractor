@@ -14,10 +14,10 @@ else
 	echo "Cloning FFmpeg-Builds..."
 	git clone https://github.com/BtbN/FFmpeg-Builds.git --depth 1 --branch master --single-branch
 fi
-# ./FFmpeg-Builds/makeimage.sh linux64 nonfree 8.1 
-./FFmpeg-Builds/build.sh linux64 nonfree 8.1 
+./FFmpeg-Builds/makeimage.sh linux64 nonfree 9.0 
+./FFmpeg-Builds/build.sh linux64 nonfree 9.0 
 mkdir -p temp
-tar -xvf FFmpeg-Builds/artifacts/ffmpeg-n8.1.*.tar.xz -C temp --wildcards --strip-components=1 '*/bin/*'
+tar -xvf FFmpeg-Builds/artifacts/ffmpeg-n9.0.*.tar.xz -C temp --wildcards --strip-components=1 '*/bin/*'
 
 # Explicitly check for update because the Dockerfile doesn't
 docker pull nextpvr/nextpvr_amd64:stable
